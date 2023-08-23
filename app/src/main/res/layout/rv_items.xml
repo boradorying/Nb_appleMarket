@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            app:cardCornerRadius="15dp">
+
+            <ImageView
+                android:id="@+id/productImgArea"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_width="90dp"
+                android:layout_height="90dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:paddingStart="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/productNameArea"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="천재~?!!!!!!!!!!!!"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/locationArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="위치"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/priceArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가격"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" />
+
+                <ImageView
+                    android:id="@+id/iconArea"
+                    android:background="@drawable/baseline_reviews_24"
+                    android:layout_marginRight="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/reviewArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_marginRight="3dp"
+                    android:text="댓글"/>
+                <ImageView
+                    android:background="@drawable/baseline_favorite_border_24"
+                    android:id="@+id/iconArea2"
+                    android:layout_marginRight="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/likeArea"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="좋아요"/>
+
+            </LinearLayout>
+
+            </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#E1C1C0C0" />
+
+
+</LinearLayout>
