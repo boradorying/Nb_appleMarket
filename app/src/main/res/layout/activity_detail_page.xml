@@ -160,6 +160,7 @@
        >
 
         <ImageView
+            android:id="@+id/likeBtn"
             android:scaleType="fitXY"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -167,7 +168,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/baseline_favorite_border_24"/>
+            android:src="@drawable/baseline_favorite_border_24"/>
 
         <TextView
             android:id="@+id/priceArea2"

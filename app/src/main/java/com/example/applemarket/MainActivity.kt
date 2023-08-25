@@ -1,10 +1,13 @@
 package com.example.applemarket
 
+
+
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.DialogInterface
+
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.AudioAttributes
@@ -14,14 +17,24 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.ActivityMainBinding
 
+
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+    private val items: MutableList<Product> = mutableListOf()
+    private lateinit var rvAdapter: RVAdapter
+
+    companion object {
+        const val DETAIL_PAGE_REQUEST_CODE = 123
+        const val RESULT_OK = 1
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -37,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             productName = "산진 한달된 선풍기 팝니다",
             productDescription = "이사가서 필요가 없어졌어요 급하게 내놓습니다",
             seller = "대현동",
-            price = "1000원",
+            price = "1,000원",
             address = "서울 서대문구 창천동",
             review = 13,
             like = 25
@@ -143,10 +156,7 @@ class MainActivity : AppCompatActivity() {
         items.add(product9)
 
 
-
-
-
-        val rvAdapter = RVAdapter(items,object :RVAdapter.OnItemClickListener{
+        val rvAdapter = RVAdapter(items, object : RVAdapter.OnItemClickListener {
             override fun onItemClick(
                 imageResourceId: Int,
                 productName: String,
@@ -155,48 +165,100 @@ class MainActivity : AppCompatActivity() {
                 price: String,
                 address: String
             ) {
-                val intent = Intent(this@MainActivity,DetailPageActivity::class.java)
-                intent.putExtra("IMAGE",imageResourceId)
-                intent.putExtra("NAME",productName)
-                intent.putExtra("DESCRIP",productDescription)
+                val intent = Intent(this@MainActivity, DetailPageActivity::class.java)
+                intent.putExtra("IMAGE", imageResourceId)
+                intent.putExtra("NAME", productName)
+                intent.putExtra("DESCRIP", productDescription)
                 intent.putExtra("SELLER", seller)
                 intent.putExtra("PRICE", price)
                 intent.putExtra("ADDRESS", address)
-                startActivity(intent)
+
+
+
+
+                startActivityForResult(intent, DETAIL_PAGE_REQUEST_CODE)
 
             }
-
         })
+
+        rvAdapter.setOnItemLongClickListener(object : RVAdapter.OnItemLongClickListener {
+            override fun onItemLongClick(position: Int) {
+                showDeleteConfirmationDialog(position)
+            }
+        })
+
         binding.RVArea.layoutManager = LinearLayoutManager(this)
         binding.RVArea.adapter = rvAdapter
+        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
 
-        binding.RVArea.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        binding.RVArea.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-               if(dy > 0  && binding.floatingBtn.visibility != View.VISIBLE){
-                   binding.floatingBtn.show()
-               }else if (dy < 0 && binding.floatingBtn.visibility == View.VISIBLE){
-                   binding.floatingBtn.hide()
-               }
+                if (dy > 0 && binding.floatingBtn.visibility != View.VISIBLE) {
+                    binding.floatingBtn.show()
+                    binding.floatingBtn.startAnimation(fadeIn)
+                } else if (dy < 0 && binding.floatingBtn.visibility == View.VISIBLE) {
+                    binding.floatingBtn.hide()
+                    binding.floatingBtn.startAnimation(fadeOut)
+                }
             }
         })
-
+        binding.floatingBtn.setOnClickListener {
+            scrollToTop()
+        }
 
     }
+
+
+
+
+
+
+
+
+
+    private fun showDeleteConfirmationDialog(position: Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("상품 삭제")
+        builder.setIcon(R.drawable.back)
+        builder.setMessage("상품을 정말로 삭제하시겠습니까?")
+        builder.setPositiveButton("확인") { dialog,which ->
+
+            items.removeAt(position)
+            rvAdapter.notifyItemRemoved(position)
+
+        }
+        builder.setNegativeButton("취소") { dialog, which ->
+
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+
+
+
+
+    fun scrollToTop() {
+        binding.RVArea.smoothScrollToPosition(0)
+    }
+
     fun notification() {
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         val builder: NotificationCompat.Builder
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // 26 버전 이상
+
             val channelId = "one-channel"
-            val channelName = "My Channel One"
+            val channelName = "당근마케떠"
             val channel = NotificationChannel(
                 channelId,
                 channelName,
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                // 채널에 다양한 정보 설정
-                description = "My Channel One Description"
+
+                description = "클론코딩당근마켓입니다"
                 setShowBadge(true)
                 val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
                 val audioAttributes = AudioAttributes.Builder()
@@ -206,22 +268,28 @@ class MainActivity : AppCompatActivity() {
                 setSound(uri, audioAttributes)
                 enableVibration(true)
             }
-            // 채널을 NotificationManager에 등록
+
             manager.createNotificationChannel(channel)
 
-            // 채널을 이용하여 builder 생성
+
             builder = NotificationCompat.Builder(this, channelId)
 
         } else {
-            // 26 버전 이하
+
             builder = NotificationCompat.Builder(this)
         }
 
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.baseline_notifications_none_24)
+        val bitmap =
+            BitmapFactory.decodeResource(resources, R.drawable.baseline_notifications_none_24)
         val intent = Intent(this, SampleActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        // 알림의 기본 정보
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         builder.run {
             setSmallIcon(R.drawable.baseline_notifications_none_24)
             setWhen(System.currentTimeMillis())
@@ -235,17 +303,18 @@ class MainActivity : AppCompatActivity() {
 
         manager.notify(11, builder.build())
     }
+
     override fun onBackPressed() {
-        // 뒤로 가기 버튼이 클릭될 때 다이얼로그 표시
+
         val builder = AlertDialog.Builder(this)
         builder.setTitle("종료")
         builder.setIcon(R.drawable.back)
         builder.setMessage("정말  종료하시겠습니까?")
-        builder.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+        builder.setPositiveButton("확인", { dialog, which ->
 
             finish()
         })
-        builder.setNegativeButton("취소", DialogInterface.OnClickListener { dialog, which ->
+        builder.setNegativeButton("취소", { dialog, which ->
 
             dialog.dismiss()
         })
