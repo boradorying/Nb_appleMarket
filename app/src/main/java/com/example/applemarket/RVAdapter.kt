@@ -1,12 +1,13 @@
 package com.example.applemarket
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarket.databinding.RvItemsBinding
 
-class RVAdapter(private val items: MutableList<Product>,private val onItemClickListener: OnItemClickListener,private var onItemLongClickListener: OnItemLongClickListener? = null) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
+class RVAdapter(private var items: MutableList<Product>,private val onItemClickListener: OnItemClickListener,private var onItemLongClickListener: OnItemLongClickListener? = null) : RecyclerView.Adapter<RVAdapter.ViewHolder>() {
 
 
     interface OnItemLongClickListener{
@@ -14,7 +15,8 @@ class RVAdapter(private val items: MutableList<Product>,private val onItemClickL
     }
 
     interface OnItemClickListener {
-        fun onItemClick(imageResourceId: Int, productName: String, productDescription: String, seller: String, price: String, address: String)
+        fun onItemClick(imageResourceId: Int, productName: String, productDescription: String, seller: String, price: String, address: String,position: Int)
+
     }
 
 
@@ -24,6 +26,7 @@ class RVAdapter(private val items: MutableList<Product>,private val onItemClickL
     }
 
     override fun onBindViewHolder(holder: RVAdapter.ViewHolder, position: Int) {
+        Log.d("jun","$position")
         holder.bindItems(items[position])
     }
 
@@ -32,6 +35,19 @@ class RVAdapter(private val items: MutableList<Product>,private val onItemClickL
     }
     fun setOnItemLongClickListener(listener: OnItemLongClickListener) {
         this.onItemLongClickListener = listener
+    }
+    fun removeItem(position: Int) {
+        if (position >= 0 && position < items.size) {
+            items.removeAt(position)
+
+
+            for (i in position until items.size) {
+                items[i].position = i
+            }
+
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, items.size - position)
+        }
     }
 
 
@@ -50,7 +66,14 @@ class RVAdapter(private val items: MutableList<Product>,private val onItemClickL
             binding.locationArea.text = item.address
             binding.priceArea.text = item.price
             binding.iconArea.setImageResource(R.drawable.baseline_reviews_24)
-            binding.iconArea2.setImageResource(R.drawable.baseline_favorite_border_24)
+
+            if (item.isLiked) {
+
+                binding.iconArea2.setImageResource(R.drawable.baseline_favorite_24)
+            } else {
+                binding.iconArea2.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
+            Log.d("jun","$item")
             binding.reviewArea.text = item.review.toString()
             binding.likeArea.text = item.like.toString()
 
@@ -61,7 +84,9 @@ class RVAdapter(private val items: MutableList<Product>,private val onItemClickL
                     item.productDescription,
                     item.seller,
                     item.price,
-                    item.address
+                    item.address,
+                    item.position,
+
                 )
             }
         }

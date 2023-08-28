@@ -13,7 +13,9 @@ data class Product(
     val price: String,
     val address: String,
     val review: Int,
-    var like: Int
+    var like: Int,
+    var position: Int,
+    var isLiked: Boolean
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -23,9 +25,11 @@ data class Product(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readInt(),
-        parcel.readInt()
-    ) {
-    }
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readBoolean()
+    )
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(imageResourceId)
@@ -36,6 +40,8 @@ data class Product(
         parcel.writeString(address)
         parcel.writeInt(review)
         parcel.writeInt(like)
+        parcel.writeInt(position)
+        parcel.writeBoolean(isLiked)
     }
 
     override fun describeContents(): Int {

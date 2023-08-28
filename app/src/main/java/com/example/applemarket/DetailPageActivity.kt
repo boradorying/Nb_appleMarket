@@ -1,9 +1,6 @@
 package com.example.applemarket
 
 
-
-
-
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,12 +13,23 @@ import com.google.android.material.snackbar.Snackbar
 class DetailPageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPageBinding
     private var isLiked: Boolean = false
-    lateinit var products : Product
+    val items = ProductList.items
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val position = intent.getIntExtra("POSITION", -1)
+        val product = items[position]
+        isLiked = product.isLiked
+
+        if (isLiked) {
+
+            binding.likeBtn.setBackgroundResource(R.drawable.baseline_favorite_24)
+        } else {
+            binding.likeBtn.setBackgroundResource(R.drawable.baseline_favorite_border_24)
+        }
 
         binding.likeBtn.setOnClickListener {
 
@@ -29,16 +37,23 @@ class DetailPageActivity : AppCompatActivity() {
             if (isLiked) {
                 binding.likeBtn.setBackgroundResource(R.drawable.baseline_favorite_border_24)
                 showSnackBarMessage("관심 목록에 제거됨.")
-
+                product.isLiked = false
+                product.like--
 
             } else {
                 binding.likeBtn.setBackgroundResource(R.drawable.baseline_favorite_24)
                 showSnackBarMessage("관심 목록에 추가되었습니다.")
-
-
-
+                product.isLiked = true
+                product.like++
             }
-            isLiked = !isLiked
+
+            isLiked =! isLiked
+
+            val resultIntent = Intent()
+            resultIntent.putExtra("POSITION", position)
+            resultIntent.putExtra("IS_LIKED", product.isLiked)
+            resultIntent.putExtra("LIKE_COUNT", product.like)
+            setResult(RESULT_OK, resultIntent)
 
 
         }
