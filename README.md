@@ -31,6 +31,7 @@
 
 *회원가입 및 로그인 화면*
 ![ㄴ](https://github.com/boradorying/chatingApp/assets/136980408/3fda8eff-1655-4af0-bb57-f1aad4b45f6a)
+![Uploading Screenshot_20230829_223525.png…]()
 
 ------------------------------
 ## 채팅목록 화면에서 회원 이름 표시, 개인 채팅 창 ,이미지 변경 버튼 클릭 시 이미지 변경
