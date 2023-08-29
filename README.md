@@ -46,13 +46,15 @@
 -해당 아이템 롱클릭시 showDeleteConfirmationDialog 함수 호출함으로써 다이얼로그 띄우고 rvAdapter.removeItem(position) ,  rvAdapter.notifyDataSetChanged()
 만들어뒀던 삭제 함수로 해당아이템의 포지션 삭제하고 리싸이클러뷰 업데이트
 -뒤로가기 눌렀을 시  override fun onBackPressed() 메서드 이용 함으로써  AlertDialog.Builder 종료 확인 알람띄우고 종료 finish()
-            
-           
 
+
+            ### 나머지 추가 구현 기능들
+            -플로팅 버튼이 맨위에 스크롤에 있을 시 없다가 스크롤 내릴 때 fade로 천천히 나타나기
+            -플로팅 버튼 눌렀을 때 스크롤 맨위로 이동
 ------------------------------
 ## 구현동영상
 
-
+https://boradoritech-ai.tistory.com/47
 
 
 
