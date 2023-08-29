@@ -1,4 +1,4 @@
-![0829230118384117](https://github.com/boradorying/appleMarket/assets/136980408/46904767-0854-4d98-a88f-f038322964f5)# 프로젝트 제목
+# 프로젝트 제목
 
 **당근마켓 클론코딩: apple_market**
 
