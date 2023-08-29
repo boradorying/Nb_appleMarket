@@ -10,7 +10,8 @@
 
 ### 1. 메인페이지(리싸이클러뷰 활용)
 
-![Uploading Screenshot_20230829_223525.png…]()
+![0829224518800989](https://github.com/boradorying/appleMarket/assets/136980408/ec62037b-326e-4356-9fdb-f6bf1ca5d269)
+
 
 
 
