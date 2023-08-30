@@ -30,7 +30,7 @@
 
 ![하트 이모티콘](https://github.com/boradorying/appleMarket/assets/136980408/786a1cf6-57c8-4b6b-aa66-96575bcbce05)
 
-- startActivityForResult를 이용하여 데이터 결과를 주고 받습니다. (다음에는 registerForActivityResult를 사용해보세요)
+- startActivityForResult를 이용하여 데이터 결과를 주고 받습니다. (다음에는 registerForActivityResult를 사용해볼 것!!!)
 - boolean 변수를 활용하여 like++ 도 함께 전달합니다.
 
 ### 4. 메인페이지에서 하트 이모티콘이 색칠된 아이템의 디테일 페이지로 돌아가면 꽉찬 하트로 되어있을 시 클릭하면 빈 하트로 변경, Snackbar로 '관심목록 제거됨'을 띄우고 해당 아이템의 라이크 카운트 -1
